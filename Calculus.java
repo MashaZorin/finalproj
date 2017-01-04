@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class Calculus{
-    private static int[] convertPoly(String poly){
+    /*private static int[] convertPoly(String poly){
 	ArrayList<String> powers = new ArrayList<String>();
 	for (int i = 0; i < poly.length(); i ++){
 	    if (poly.charAt(i) == '^'){
@@ -31,6 +31,13 @@ public class Calculus{
 	    }
 	}
 	return coef;
+	}*/
+
+    private static void convertPoly(String poly){
+	PolyTokens str = new PolyTokens(poly);
+	while(str.hasMoreTokens){
+	    System.out.println(str.nextToken);
+	}
     }
     
     private static String derOfPoly(String poly){
@@ -46,7 +53,8 @@ public class Calculus{
     }
 
     public static void main(String[]args){
-	printAry(convertPoly("x^2 + x^1"));
-	printAry(convertPoly("x^2 + 3x^4 - 4x^0"));
+	//printAry(convertPoly("x^2 + x^1"));
+	//printAry(convertPoly("x^2 + 3x^4 - 4x^0"));
+	convertPoly("x^2 + 34x^4 + 3");
     }
 }
