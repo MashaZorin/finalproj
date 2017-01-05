@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.StringTokenizer;
 
 public class Calculus{
     /*private static int[] convertPoly(String poly){
@@ -34,9 +35,45 @@ public class Calculus{
 	}*/
 
     private static void convertPoly(String poly){
-	PolyTokens str = new PolyTokens(poly);
-	while(str.hasMoreTokens){
-	    System.out.println(str.nextToken);
+	//find how many parts of the poly there are
+	int numPowers = 0;
+	for (int i = 0; i < poly.length(); i ++){
+	    if (poly.charAt(i) == '^'){
+		numPowers ++;
+	    }
+	}
+	double[] powers = new double[numPowers + 2]; // add 2 in case of constant or x - they don't get a carrot char
+	double[] coef = new double[numPowers + 2];
+	String alphabet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+	//split up at the spaces and variable
+	StringTokenizer str = new StringTokenizer(poly, " " + alphabet);
+	while(str.hasMoreTokens()){
+	    int index = 0;
+	    String next1 = str.nextToken();
+	    if (next1.equals("+")){
+		String next2 = str.nextToken();
+		if (next2.charAt(0) == '^'){
+		    coef[index] = 1;
+		    powers[index] = Integer.parseInt(next2.substring(1));
+		    index ++;
+		}
+		else if(Character.isDigit(next2.charAt(0))){
+		    coef[index] = Integer.parseInt(next2);
+		}
+		else{
+		    //error
+		}
+	    }
+	    if (next1.equals("-")){
+		next2 = str.nextToken();
+		if (next2.charAt(0) = '^'){
+		    coef[index] = -1;
+		    powers[index] = Integer.parseInt(next2.substring(1));
+		    index ++;
+		}
+		else if (Character.isDigit(next2.charAt(0))){
+		}
+	    }
 	}
     }
     
