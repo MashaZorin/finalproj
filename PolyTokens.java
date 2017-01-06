@@ -9,14 +9,15 @@ public class PolyTokens{
 	int index = 0;
 	for (int i = 0; i < str.length(); i ++){
 	    String token = "";
-	    if (Character.IsDigit(str.charAt(i))){
-		while (Character.IsDigit(str.charAt(i))){
-		    token += str.charAt(i);
+	    char c = str.charAt(i);
+	    if (Character.IsDigit(c)){
+		while (Character.IsDigit(c)){
+		    token += c;
 		    i ++
 		}
 		tokens[index] = token;
 	    }
-	    else if (str.charAt(i) != ' '){
+	    else if (c == '(' || c == ')' || c == '*' || c == '/' || c == '+' || c == '-' || c == '^' || c == '[' || c == ']'){
 		tokens[index] = "" + str.charAt(i);
 	    }
 	}
