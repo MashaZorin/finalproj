@@ -16,13 +16,13 @@ public class Calculus{
 	//split up polynomial
 	PolyTokens str = new PolyTokens(poly);
 	while(str.hasMoreTokens()){
-	    /*int index = 0;
+	    int index = 0;
 	    String next1 = str.nextToken();
 	    if (next1.equals("+")){
 		String next2 = str.nextToken();
-		if (next2.charAt(0) == '^'){
+		if (next2.equals("^")){
 		    coef[index] = 1;
-		    powers[index] = Integer.parseInt(next2.substring(1));
+		    powers[index] = Integer.parseInt(str.nextToken());
 		    index ++;
 		}
 		else if(Character.isDigit(next2.charAt(0))){
@@ -33,16 +33,16 @@ public class Calculus{
 		}
 	    }
 	    if (next1.equals("-")){
-		next2 = str.nextToken();
-		if (next2.charAt(0) = '^'){
+		String next2 = str.nextToken();
+		if (next2.equals("^")){
 		    coef[index] = -1;
-		    powers[index] = Integer.parseInt(next2.substring(1));
+		    powers[index] = Integer.parseInt(str.nextToken());
 		    index ++;
 		}
 		else if (Character.isDigit(next2.charAt(0))){
 		}
-		}*/
-	    System.out.println(str.nextToken());
+	    }
+	    //System.out.println(str.nextToken());
 	}
     }
     
