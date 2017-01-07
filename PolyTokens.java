@@ -19,8 +19,8 @@ public class PolyTokens{
 		}
 		tokens.add(token);
 	    }
-	    else if (c == '(' || c == ')' || c == '*' || c == '/' || c == '+' || c == '-' || c == '^' || c == '[' || c == ']'){
-		tokens.add("" + c);
+	    else if (str.charAt(i) != ' '){
+		tokens.add(str.charAt(i));
 	    }
 	}
     }
