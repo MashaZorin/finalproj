@@ -3,7 +3,7 @@ import java.util.Arrays;
 import java.util.StringTokenizer;
 
 public class Calculus{
-    private static void convertPoly(String poly){
+    /*private static void convertPoly(String poly){
 	//find how many parts of the poly there are
 	int numPowers = 0;
 	for (int i = 0; i < poly.length(); i ++){
@@ -47,11 +47,33 @@ public class Calculus{
     }
     
     private static String derOfPoly(String poly){
-	return "";
+    return "";
+    }*/
+
+    private static int getType(String str){
+	if (Character.isDigit(str.charAt(0))){
+	    return 1; // is a number
+	}
+	else if (str.equals("+") || str.equals("-") || str.equals("*") || str.equals("/") || str.equals("^")){
+	    return 2; // is a binary operation
+	}
+	else if (str.equals("(") || str.equals(")")){
+	    return 3; // is a parenthasis
+	}
+	else{
+	    return 4; // is a variable
+	}
     }
     
     public static String derivative(String f){
-	return "";
+	PolyTokens expr = new PolyTokens(f);
+	String next1 = expr.nextToken();
+	if (getType(next1) == 1){
+	    String next2 = expr.nextToken();
+	    if (getType(next2) == 2){
+		leftOp = next1;
+		rightOp = 
+	    
     }
 
     private static void printAry(int[] ary){

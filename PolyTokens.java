@@ -4,6 +4,7 @@ public class PolyTokens{
     private String str;
     private ArrayList<String> tokens;
     private int currentIndex;
+    private int type; //NUMBER=1,VARIABLE=2,BINOP=3,PARANTHESIS=4
     
     public PolyTokens(String str){
 	this.str = str;
@@ -11,7 +12,6 @@ public class PolyTokens{
 	tokens = new ArrayList<String>(1);
 	for (int i = 0; i < str.length(); i ++){
 	    String token = "";
-	    char c = str.charAt(i);
 	    if (Character.isDigit(str.charAt(i))){
 		while (i < str.length() && Character.isDigit(str.charAt(i))){
 		    token += str.charAt(i);
