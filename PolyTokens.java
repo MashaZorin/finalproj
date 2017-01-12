@@ -39,4 +39,9 @@ public class PolyTokens{
 	currentIndex ++;
 	return out;
     }
+
+    public ArrayList<String> getTokens(){
+	return tokens;
+    }
+
 }
