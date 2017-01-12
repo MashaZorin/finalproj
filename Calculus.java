@@ -71,8 +71,33 @@ public class Calculus{
 	if (getType(next1) == 1){
 	    String next2 = expr.nextToken();
 	    if (getType(next2) == 2){
-		leftOp = next1;
-		rightOp = 
+		String leftOp = next1;
+		String rightOp = ;
+		if (next2.equals("+") || next2.equals("-")){
+		    derivative(leftOp);
+		    System.out.println(" " + next2 + " ");
+		    derivative(rightOp);
+		}
+		if (next2.equals("*")){
+		    derivative(leftOp);
+		    System.out.println("*" + rightOp + "+" + leftOp + "*");
+		    derivarive(rightOp);
+		}
+		if (next2.equals("/")){
+		    System.out.println("(");
+		    derivative(leftOp);
+		    System.out.println("*" rightOp + "-" + leftOp + "*");
+		    derivative(rightOp);
+		    System.out.println("/" + rightOp + "^2");
+		}
+		if (next2.equals("^")){
+		    System.out.println(leftOp + "^" + rightOp + "(");
+		    derivative(rightOp);
+		    System.out.println("*ln(" + leftOp + ") + " + rightOp + "/" + leftOp + "*");
+		    derviative(leftOp);
+		    System.out.println(")");
+		}
+	    }
 	    
     }
 
