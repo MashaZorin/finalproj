@@ -131,7 +131,19 @@ public class Calculus{
 	    
 	}*/
 
-    public static String[] parseExpr(PolyTokens expr){
+    private static String[] parseExpr(PolyTokens expr){
+	String[] both = new String[2];
+	String[] left = parseTerm(expr);
+	String op = expr.nextToken();
+	if (op.equals("+") || op.equals("-")){
+	    String right = parseTerm(expr);
+	    both[0] = left[0] + op + right[0];
+	    both[1] = left[1] + op + right[1];
+	}
+	else{
+	    both = left;
+	}
+	return both;
     }
 
     private static String[] parseTerm(PolyTokens term){
