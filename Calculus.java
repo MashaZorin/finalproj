@@ -135,11 +135,22 @@ public class Calculus{
     }
 
     private static String[] parseTerm(PolyTokens term){
+	String[] both = new String[2];
+	String[] left = 
     }
 
     private static String[] parsePower(PolyTokens power){
 	String[] both = new String[2];
-	String next = power.nextToken();
+	String[] left = parsePart(power);
+	if (power.nextToken().equals("^")){
+	    String[] right = parsePart(power);
+	    both[0] = left[0] + "^" + right[0];
+	    both[1] = both[0] + " * (" + right[1] + " * ln(" + left[0] + ") + " + right[0] + "/" + left[0] + "*" + left[1] + ")";
+	}
+	else{
+	    both = left;
+	}
+	return both;
     }
 
     private static String[] parsePart(PolyTokens part){
