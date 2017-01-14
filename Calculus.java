@@ -134,14 +134,13 @@ public class Calculus{
     private static String[] parseExpr(PolyTokens expr){
 	String[] both = new String[2];
 	String[] left = parseTerm(expr);
-	String op = expr.nextToken();
-	if (op.equals("+") || op.equals("-")){
-	    String right = parseTerm(expr);
+	both[0] = left[0];
+	both[1] = left[1];
+	while (expr.hasMoreTokens() && (expr.sneakPeak().equals("+") || expr.sneakPeak().equals("-"))){
+	    String op = expr.nextToken();
+	    String[] right = parseTerm(expr);
 	    both[0] = left[0] + op + right[0];
 	    both[1] = left[1] + op + right[1];
-	}
-	else{
-	    both = left;
 	}
 	return both;
     }
@@ -149,19 +148,21 @@ public class Calculus{
     private static String[] parseTerm(PolyTokens term){
 	String[] both = new String[2];
 	String[] left = parsePower(term);
-	String op = term.nextToken();
-	if (op.equals("*")){
-	    String[] right = parsePower(term);
-	    both[0] = left[0] + "*" + right[0];
-	    both[1] = left[1] + "*" + right[0] + " + " + left[0] + "*" + right[1];
-	}
-	else if (op.equals("/")){
-	    String[] right = parsePower(term);
-	    both[0] = left[0] + "/" + right[0];
-	    both[1] = "(" + left[1] + "*" + right[0] + " - " + left[0] + "*" + right[1] + ")/(" + right[0] + ")^2";
-	}
-	else{
-	    both = left;
+	both[0] = left[0];
+	both[1] = left[1];
+	while (term.hasMoreTokens() && (term.sneakPeak().equals("*") || term.sneakPeak().equals("/"))){
+	    if (term.sneakPeak().equals("*")){
+		term.nextToken();
+		String[] right = parsePower(term);
+		both[0] = left[0] + "*" + right[0];
+		both[1] = left[1] + "*" + right[0] + " + " + left[0] + "*" + right[1];
+	    }
+	    else if (term.sneakPeak().equals("/")){
+		term.nextToken();
+		String[] right = parsePower(term);
+		both[0] = left[0] + "/" + right[0];
+		both[1] = "(" + left[1] + "*" + right[0] + " - " + left[0] + "*" + right[1] + ")/(" + right[0] + ")^2";
+	    }
 	}
 	return both;
     }
@@ -169,42 +170,54 @@ public class Calculus{
     private static String[] parsePower(PolyTokens power){
 	String[] both = new String[2];
 	String[] left = parsePart(power);
-	if (power.nextToken().equals("^")){
+	both[0] = left[0];
+	both[1] = left[1];
+	while (power.hasMoreTokens() && power.sneakPeak().equals("^")){
+	    power.nextToken();
 	    String[] right = parsePart(power);
 	    both[0] = left[0] + "^" + right[0];
-	    both[1] = both[0] + " * (" + right[1] + " * ln(" + left[0] + ") + " + right[0] + "/" + left[0] + "*" + left[1] + ")";
-	}
-	else{
-	    both = left;
+	    both[1] = "(" + left[0] + "^" + right[0] + ") * (" + right[1] + " * ln(" + left[0] + ") + " + right[0] + "/" + left[0] + "*" + left[1] + ")";
 	}
 	return both;
     }
 
     private static String[] parsePart(PolyTokens part){
 	String[] both = new String[2];
-	String next = part.nextToken();
-	if (getType(next) == 1){
-	    both[0] = next;
-	    both[1] = "0";
-	}
-	else if (getType(next) == 4){
-	    both[0] = next;
-	    both[1] = "1";
-	}
-	else if (next.equals("(")){
-	    both = parseExpr(part);
+	if (part.hasMoreTokens()){
+	    String next = part.nextToken();
+	    if (getType(next) == 1){
+		both[0] = next;
+		both[1] = "0";
+	    }
+	    else if (getType(next) == 4){
+		both[0] = next;
+		both[1] = "1";
+	    }
+	    else if (next.equals("(")){
+		both = parseExpr(part);
+	    }
 	}
 	return both;
     }
 
-    private static void printAry(int[] ary){
+    private static void printAry(String[] ary){
 	System.out.println(Arrays.toString(ary));
     }
 
     public static void main(String[]args){
 	//printAry(convertPoly("x^2 + x^1"));
 	//printAry(convertPoly("x^2 + 3x^4 - 4x^0"));
-	PolyTokens expr = new PolyTokens("(x^2) + (34x^4) + 3");
-	derivative(expr);
+	PolyTokens expr0 = new PolyTokens("x^2 + 34 * x^4 + 3");
+	printAry(parseExpr(expr0));
+	
+	PolyTokens expr1 = new PolyTokens("x^2");
+	PolyTokens expr2 = new PolyTokens("2 * x");
+	PolyTokens expr3 = new PolyTokens("x + 1");
+	PolyTokens expr4 = new PolyTokens("(x + 1) / (x^2 + 3)");
+
+	printAry(parseExpr(expr1));
+	printAry(parseExpr(expr2));
+	printAry(parseExpr(expr3));
+	printAry(parseExpr(expr4));
     }
 }

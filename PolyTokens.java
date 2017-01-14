@@ -20,7 +20,7 @@ public class PolyTokens{
 		tokens.add(token);
 	    }
 	    else if (str.charAt(i) != ' '){
-		tokens.add(str.charAt(i));
+		tokens.add("" + str.charAt(i));
 	    }
 	}
     }
@@ -38,6 +38,10 @@ public class PolyTokens{
 	String out = tokens.get(currentIndex);
 	currentIndex ++;
 	return out;
+    }
+
+    public String sneakPeak(){
+	return tokens.get(currentIndex);
     }
 
     public ArrayList<String> getTokens(){
