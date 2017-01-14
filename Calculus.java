@@ -65,50 +65,98 @@ public class Calculus{
 	}
     }
     
-    public static String derivative(PolyTokens expr){
+    /* public static String derivative(PolyTokens expr){
 	//PolyTokens expr = new PolyTokens(f);
 	String next1 = expr.nextToken();
-	if (getType(next1) == 1 || getType(next1) == 4){
+	if (expr.hasMoreTokens() && (getType(next1) == 1 || getType(next1) == 4)){
 	    String next2 = expr.nextToken();
-	    if (getType(next2) == 2){
-		String next3 = expr.nextToken();
-		String leftOp = next1;
-		if (getType(next3) == 1 || getType(next3) == 4){
-		    String rightOp = next3;
+	    if (!expr.hasMoreTokens()){
+		if (getType(next1) == 1){
+		    System.out.println(0);
 		}
 		else{
-		    String rightOp = derivative(expr);
+		    System.out.println(1);
 		}
+	    }
+	    else if (getType(next2) == 2){
+		String next3 = expr.nextToken();
+		String leftOp = next1;
+		String rightOp;
+		if (getType(next3) == 1 || getType(next3) == 4){
+		    rightOp = next3;
+		}
+		else{
+		    rightOp = derivative(expr);
+		}
+		PolyTokens left = new PolyTokens(leftOp);
+		PolyTokens right = new PolyTokens(rightOp);
 		if (next2.equals("+") || next2.equals("-")){
-		    derivative(leftOp);
+		    derivative(left);
 		    System.out.println(" " + next2 + " ");
-		    derivative(rightOp);
+		    derivative(right);
 		}
 		else if (next2.equals("*")){
-		    derivative(leftOp);
+		    derivative(left);
 		    System.out.println("*" + rightOp + "+" + leftOp + "*");
-		    derivarive(rightOp);
+		    derivative(right);
 		}
 		else if (next2.equals("/")){
 		    System.out.println("(");
-		    derivative(leftOp);
-		    System.out.println("*" rightOp + "-" + leftOp + "*");
-		    derivative(rightOp);
+		    derivative(left);
+		    System.out.println("*" + rightOp + "-" + leftOp + "*");
+		    derivative(right);
 		    System.out.println("/" + rightOp + "^2");
 		}
 		else if (next2.equals("^")){
 		    System.out.println(leftOp + "^" + rightOp + "(");
-		    derivative(rightOp);
+		    derivative(right);
 		    System.out.println("*ln(" + leftOp + ") + " + rightOp + "/" + leftOp + "*");
-		    derviative(leftOp);
+		    derivative(left);
 		    System.out.println(")");
 		}
 		return leftOp + next2 + rightOp;
 	    }
 	    else if (next2.equals(")")){
-		
+		//derivative(next1);
+		return next1;
+	    }
+	}
+	else if (next1.equals("(")){
+	    derivative(expr);
+	}
+	else{
+	    throw new IllegalArgumentException();
+	}
+	return "what?";    
 	    
-	    
+	}*/
+
+    public static String[] parseExpr(PolyTokens expr){
+    }
+
+    private static String[] parseTerm(PolyTokens term){
+    }
+
+    private static String[] parsePower(PolyTokens power){
+	String[] both = new String[2];
+	String next = power.nextToken();
+    }
+
+    private static String[] parsePart(PolyTokens part){
+	String[] both = new String[2];
+	String next = part.nextToken();
+	if (getType(next) == 1){
+	    both[0] = next;
+	    both[1] = "0";
+	}
+	else if (getType(next) == 4){
+	    both[0] = next;
+	    both[1] = "1";
+	}
+	else if (next.equals("(")){
+	    both = parseExpr(part);
+	}
+	return both;
     }
 
     private static void printAry(int[] ary){
@@ -118,6 +166,7 @@ public class Calculus{
     public static void main(String[]args){
 	//printAry(convertPoly("x^2 + x^1"));
 	//printAry(convertPoly("x^2 + 3x^4 - 4x^0"));
-	convertPoly("x^2 + 34x^4 + 3");
+	PolyTokens expr = new PolyTokens("(x^2) + (34x^4) + 3");
+	derivative(expr);
     }
 }
