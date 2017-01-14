@@ -136,7 +136,22 @@ public class Calculus{
 
     private static String[] parseTerm(PolyTokens term){
 	String[] both = new String[2];
-	String[] left = 
+	String[] left = parsePower(term);
+	String op = term.nextToken();
+	if (op.equals("*")){
+	    String[] right = parsePower(term);
+	    both[0] = left[0] + "*" + right[0];
+	    both[1] = left[1] + "*" + right[0] + " + " + left[0] + "*" + right[1];
+	}
+	else if (op.equals("/")){
+	    String[] right = parsePower(term);
+	    both[0] = left[0] + "/" + right[0];
+	    both[1] = "(" + left[1] + "*" + right[0] + " - " + left[0] + "*" + right[1] + ")/(" + right[0] + ")^2";
+	}
+	else{
+	    both = left;
+	}
+	return both;
     }
 
     private static String[] parsePower(PolyTokens power){
