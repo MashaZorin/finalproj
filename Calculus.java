@@ -139,8 +139,8 @@ public class Calculus{
 	while (expr.hasMoreTokens() && (expr.sneakPeak().equals("+") || expr.sneakPeak().equals("-"))){
 	    String op = expr.nextToken();
 	    String[] right = parseTerm(expr);
-	    both[0] = left[0] + op + right[0];
-	    both[1] = left[1] + op + right[1];
+	    both[0] = "(" + left[0] + op + right[0] + ")";
+	    both[1] = "(" + left[1] + op + right[1] + ")";
 	}
 	return both;
     }
@@ -195,6 +195,9 @@ public class Calculus{
 	    }
 	    else if (next.equals("(")){
 		both = parseExpr(part);
+		if (!part.hasMoreTokens() || !part.nextToken().equals(")")){
+		    throw new IllegalArgumentException("You need a closing parenthasis.");
+		}
 	    }
 	}
 	return both;
@@ -212,8 +215,8 @@ public class Calculus{
 	
 	PolyTokens expr1 = new PolyTokens("x^2");
 	PolyTokens expr2 = new PolyTokens("2 * x");
-	PolyTokens expr3 = new PolyTokens("x + 1");
-	PolyTokens expr4 = new PolyTokens("(x + 1) / (x^2 + 3)");
+	PolyTokens expr3 = new PolyTokens("( x + 1 )");
+	PolyTokens expr4 = new PolyTokens("( x + 1 ) / ( x^2 + 3 )");
 
 	printAry(parseExpr(expr1));
 	printAry(parseExpr(expr2));
