@@ -131,67 +131,131 @@ public class Calculus{
 	    
 	}*/
 
+    //the String[] both contains the expression, the derivative, and whether or not it is a constant
     private static String[] parseExpr(PolyTokens expr){
-	String[] both = new String[2];
+	String[] both = new String[3];
 	String[] left = parseTerm(expr);
 	both[0] = left[0];
 	both[1] = left[1];
+	both[2] = left[2];
 	while (expr.hasMoreTokens() && (expr.sneakPeak().equals("+") || expr.sneakPeak().equals("-"))){
 	    String op = expr.nextToken();
 	    String[] right = parseTerm(expr);
 	    both[0] = "(" + left[0] + op + right[0] + ")";
-	    both[1] = "(" + left[1] + op + right[1] + ")";
+	    if (left[2].equals("false")){
+		if (right[2].equals("false")){
+		    both[1] = "(" + left[1] + op + right[1] + ")";
+		}
+		else{
+		    both[1] = left[1];
+		}
+	    }
+	    else{
+		if (right[2].equals("false")){
+		    both[1] = right[1];
+		    both[2] = "false";
+		}
+		else{
+		    both[1] = "0";
+		}
+	    }
 	}
 	return both;
     }
 
     private static String[] parseTerm(PolyTokens term){
-	String[] both = new String[2];
+	String[] both = new String[3];
 	String[] left = parsePower(term);
 	both[0] = left[0];
 	both[1] = left[1];
+	both[2] = left[2];
 	while (term.hasMoreTokens() && (term.sneakPeak().equals("*") || term.sneakPeak().equals("/"))){
 	    if (term.sneakPeak().equals("*")){
 		term.nextToken();
 		String[] right = parsePower(term);
 		both[0] = left[0] + "*" + right[0];
-		both[1] = left[1] + "*" + right[0] + " + " + left[0] + "*" + right[1];
+		if (left[2].equals("false")){
+		    if (right[2].equals("false")){
+			both[1] = left[1] + "*" + right[0] + " + " + left[0] + "*" + right[1];
+		    }
+		    else{
+			both[1] = left[1] + "*" + right[0];
+		    }
+		}
+		else{
+		    if (right[2].equals("false")){
+			both[1] = left[0] + "*" + right[1];
+			both[2] = "false";
+		    }
+		    else{
+			both[1] = "0";
+		    }
+		}
 	    }
 	    else if (term.sneakPeak().equals("/")){
 		term.nextToken();
 		String[] right = parsePower(term);
 		both[0] = left[0] + "/" + right[0];
-		both[1] = "(" + left[1] + "*" + right[0] + " - " + left[0] + "*" + right[1] + ")/(" + right[0] + ")^2";
+		if (left[2].equals("false")){
+		    if (right[2].equals("false")){
+			both[1] = "(" + left[1] + "*" + right[0] + " - " + left[0] + "*" + right[1] + ")/(" + right[0] + ")^2";
+		    }
+		    else{
+			both[1] = left[1] + "/" + right[0];
+		    }
+		}
+		else{
+		    if (right[2].equals("false")){
+			both[1] = "(" + left[0] + "*" + right[1] + ")/(" + right[0] + ")^2";
+			both[2] = "false";
+		    }
+		    else{
+			both[1] = "0";
+		    }
+		}
 	    }
 	}
 	return both;
     }
 
     private static String[] parsePower(PolyTokens power){
-	String[] both = new String[2];
+	String[] both = new String[3];
 	String[] left = parsePart(power);
 	both[0] = left[0];
 	both[1] = left[1];
+	both[2] = left[2];
 	while (power.hasMoreTokens() && power.sneakPeak().equals("^")){
 	    power.nextToken();
 	    String[] right = parsePart(power);
 	    both[0] = left[0] + "^" + right[0];
-	    both[1] = "(" + left[0] + "^" + right[0] + ") * (" + right[1] + " * ln(" + left[0] + ") + " + right[0] + "/" + left[0] + "*" + left[1] + ")";
+	    if (right[2].equals("false")){
+		both[1] = "(" + left[0] + "^" + right[0] + ") * (" + right[1] + " * ln(" + left[0] + ") + " + right[0] + "/" + left[0] + "*" + left[1] + ")";
+		both[2] = "false";
+	    }
+	    else if (left[2].equals("false")){
+		String pow = "" + (Integer.parseInt(right[0]) - 1);
+		both[1] = right[0] + "*" + left[0] + "^" + pow;
+	    }
+	    else{
+		both[1] = "0";
+	    }
 	}
 	return both;
     }
 
     private static String[] parsePart(PolyTokens part){
-	String[] both = new String[2];
+	String[] both = new String[3];
 	if (part.hasMoreTokens()){
 	    String next = part.nextToken();
 	    if (getType(next) == 1){
 		both[0] = next;
 		both[1] = "0";
+		both[2] = "true";
 	    }
 	    else if (getType(next) == 4){
 		both[0] = next;
 		both[1] = "1";
+		both[2] = "false";
 	    }
 	    else if (next.equals("(")){
 		both = parseExpr(part);
@@ -217,10 +281,12 @@ public class Calculus{
 	PolyTokens expr2 = new PolyTokens("2 * x");
 	PolyTokens expr3 = new PolyTokens("( x + 1 )");
 	PolyTokens expr4 = new PolyTokens("( x + 1 ) / ( x^2 + 3 )");
+	PolyTokens expr5 = new PolyTokens("356");
 
 	printAry(parseExpr(expr1));
 	printAry(parseExpr(expr2));
 	printAry(parseExpr(expr3));
 	printAry(parseExpr(expr4));
+	printAry(parseExpr(expr5));
     }
 }
