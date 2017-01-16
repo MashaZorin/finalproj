@@ -294,5 +294,11 @@ public class Calculus{
 	printAry(parseExpr(expr3));
 	printAry(parseExpr(expr4));
 	printAry(parseExpr(expr5));
+
+	System.out.println(derivative("x^2"));
+	System.out.println(derivative("3 / 2 * 5"));
+	System.out.println(derivative("x + 1 + ( 3 * x ) ^ 4"));
+	System.out.println(derivative("( x + 1 ) / ( x^2 + 3 )"));
+	System.out.println(derivative("x^0"));
     }
 }
