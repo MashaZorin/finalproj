@@ -267,6 +267,12 @@ public class Calculus{
 	return both;
     }
 
+    //actual derivative function
+    public static String derivative(String function){
+	PolyTokens expr = new PolyTokens(function);
+	return parseExpr(expr)[1];
+    }
+
     private static void printAry(String[] ary){
 	System.out.println(Arrays.toString(ary));
     }
