@@ -6,7 +6,6 @@ import java.awt.*;
 import java.awt.event.*;
 
 public class Numbers {
-    
     //converting the base stuff:
     private static int convertToBase10(int startbase, int num){
 	int baseTen = 0;
@@ -125,30 +124,48 @@ public class Numbers {
 	return "" + product;
 	
     }
-
+  
     public static String arithmetic(String expression) {
-        String[] terms = expression.split("\\s+");
-	//TODO right now its assuming that ~ 1 + 4 / 9 - 2 * 9
-	//for some reason not working when its just num op num
-	//TODO parens and stuff
-	//TODO order of ops
-	double soFar = Double.parseDouble(terms[0]);
-        for(int i = 0; i < terms.length; i++) {
-	    if(terms[i].equals("*")) {
-		double[] nums = {Double.parseDouble(terms[i-1]), Double.parseDouble(terms[i+1])};
+        String[] split = expression.split("\\s+");
+	ArrayList<String> terms = new ArrayList<String>();
+	for(int i = 0; i < split.length; i++) {
+	    terms.add(split[i]);
+	}
+	terms.add(0, "a");
+	terms.add("b");
+	double soFar = Double.parseDouble(terms.get(1));
+        for(int i = 0; i < terms.size(); i++) {
+	    if(terms.get(i).equals("*")) {
+		double[] nums = {Double.parseDouble(terms.get(i-1)), Double.parseDouble(terms.get(i+1))};
 		soFar = Double.parseDouble(multiply(nums));
+		terms.remove(i+1);
+		terms.remove(i);
+		terms.remove(i-1);
+		terms.add((i-1),"" + soFar);
 	    }
-	    else if(terms[i].equals("/")) {
-	    	soFar = Double.parseDouble(divide(terms[i-1], terms[i+1]));
+	    else if(terms.get(i).equals("/")) {
+	    	soFar = Double.parseDouble(divide(terms.get(i-1), terms.get(i+1)));
+		terms.remove(i+1);
+		terms.remove(i);
+		terms.remove(i-1);
+		terms.add((i-1),"" + soFar);
 	    }
 	}
-	for(int i = 0; i < terms.length; i++) {
-	    if(terms[i].equals("+")) {
-		double[] nums = {soFar,Double.parseDouble(terms[i+1])};
+	for(int i = 0; i < terms.size(); i++) {
+	    if(terms.get(i).equals("+")) {
+		double[] nums = {Double.parseDouble(terms.get(i-1)),Double.parseDouble(terms.get(i+1))};
 		soFar =  Double.parseDouble(add(nums));
+		terms.remove(i+1);
+		terms.remove(i);
+		terms.remove(i-1);
+		terms.add((i-1),"" + soFar);
 	    }
-	    else if(terms[i].equals("-")) {
-		soFar = Double.parseDouble(subtract("" + soFar, terms[i+1]));
+	    else if(terms.get(i).equals("-")) {
+		soFar = Double.parseDouble(subtract(terms.get(i-1), terms.get(i+1)));
+		terms.remove(i+1);
+		terms.remove(i);
+		terms.remove(i-1);
+		terms.add((i-1),"" + soFar);
 	    }
 	}
 	return "" + soFar;
@@ -164,6 +181,31 @@ public class Numbers {
     }
 
     public static String poly(String eqns, int a) {
+	/*
+	ArrayList<String> powers = new ArrayList<String>();
+	for (int i = 0; i < poly.length(); i++){
+	    if (poly.charAt(i) == '^'){
+		powers.add("" + poly.charAt(i + 1));
+	    }
+	}
+	int highestPower = 0;
+	for (int i = 0; i < powers.size(); i ++){
+	    if (Integer.parseInt(powers.get(i)) > highestPower){
+		highestPower = Integer.parseInt(powers.get(i));
+	    }
+	}
+
+	int[] coeffs = new int[highestPower+ 1];
+	for (int i = 0; i < coeffs.length; i++) {
+	    if(poly.charAt(i) == 'x') {
+		int iHateBigNums = 0;
+		while(iHateBigNums 
+	        int index = Integer.parseInt("" + poly.charAt(i-1));
+	    }
+
+	}
+    */
+    
 	int[] f = new int[4];
 	int[] g = new int[4];
 	f[0] = Integer.parseInt("" + eqns.charAt(0));
@@ -196,9 +238,9 @@ public class Numbers {
 	    return subPoly(f, g);
 	}
     }
-
     //so far only works if theyre even in length
     //todo make the - thing better like instead of + -1 itll just be -1
+
     public static String addPoly(int[] f, int[] g) {
 	int[] h = new int[f.length];
 	String ans = "";
@@ -241,4 +283,15 @@ public class Numbers {
 	return ans;
 	
     }	
-}
+
+
+    public static void main(String[] args) {
+	System.out.println(arithmetic("3 + 4 * 2"));
+		System.out.println(arithmetic("3 * 2 + 4"));
+			System.out.println(arithmetic("3 - 4 * 2"));
+				System.out.println(arithmetic("3 / 4 * 2"));
+					System.out.println(arithmetic("3 + 4 / 2"));
+						System.out.println(arithmetic("3 / 4 - 2"));
+    }
+
+} 
