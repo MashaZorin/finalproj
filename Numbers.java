@@ -181,11 +181,13 @@ public class Numbers {
     }
 
     public static String poly(String eqns, int a) {
-	/*
+	String[] split = eqns.split("\\s+");
+	String eqn1 = "a" + split[0] + "b";
+	String eqn2 = "a" + split[1] + "b";
 	ArrayList<String> powers = new ArrayList<String>();
-	for (int i = 0; i < poly.length(); i++){
-	    if (poly.charAt(i) == '^'){
-		powers.add("" + poly.charAt(i + 1));
+	for (int i = 0; i < eqns.length(); i++){
+	    if (eqns.charAt(i) == '^'){
+		powers.add("" + eqns.charAt(i + 1));
 	    }
 	}
 	int highestPower = 0;
@@ -194,18 +196,35 @@ public class Numbers {
 		highestPower = Integer.parseInt(powers.get(i));
 	    }
 	}
+	int[] f = new int[highestPower + 1];
+	int[] g = new int[highestPower + 1];
+	int findex = 0;
+	for (int i = 0; i < eqn1.length(); i++) {
+	    if(eqn1.charAt(i) == 'x' || eqn2.charAt(i) == 'b') {
+		int iHateBigNums = 1;
+		while(Character.isDigit(eqn1.charAt(i-iHateBigNums)) == true) {
+		    iHateBigNums++;
+		}
+	        int index =  i - iHateBigNums + 1;
+		f[findex] = Integer.parseInt(eqn1.substring(index,i));
+		findex++;
+	    }
+	}
 
-	int[] coeffs = new int[highestPower+ 1];
-	for (int i = 0; i < coeffs.length; i++) {
-	    if(poly.charAt(i) == 'x') {
-		int iHateBigNums = 0;
-		while(iHateBigNums 
-	        int index = Integer.parseInt("" + poly.charAt(i-1));
+	int gindex = 0;
+	for (int i = 0; i < eqn2.length(); i++) {
+	    if(eqn2.charAt(i) == 'x' || eqn2.charAt(i) == 'b') {
+		int iHateBigNums = 1;
+		while(Character.isDigit(eqn2.charAt(i-iHateBigNums)) == true) {
+		    iHateBigNums++;
+		}
+	        int index = i - iHateBigNums + 1;
+		g[gindex] = Integer.parseInt(eqn2.substring(index,i));
+		gindex++;
 	    }
 
 	}
-    */
-    
+	/*
 	int[] f = new int[4];
 	int[] g = new int[4];
 	f[0] = Integer.parseInt("" + eqns.charAt(0));
@@ -216,6 +235,7 @@ public class Numbers {
 	g[1] = Integer.parseInt("" + eqns.charAt(22));
 	g[2] = Integer.parseInt("" + eqns.charAt(27));
 	g[3] = Integer.parseInt("" + eqns.charAt(32));
+	*/
 	/*
 	int i = 0;
 	int j = 0;
@@ -232,11 +252,13 @@ public class Numbers {
 	}
 	s.close();
 	*/
+
 	if(a == 0) {
 	    return addPoly(f, g);
 	}else{
 	    return subPoly(f, g);
 	}
+
     }
     //so far only works if theyre even in length
     //todo make the - thing better like instead of + -1 itll just be -1
@@ -286,12 +308,15 @@ public class Numbers {
 
 
     public static void main(String[] args) {
+	/*
 	System.out.println(arithmetic("3 + 4 * 2"));
-		System.out.println(arithmetic("3 * 2 + 4"));
-			System.out.println(arithmetic("3 - 4 * 2"));
-				System.out.println(arithmetic("3 / 4 * 2"));
-					System.out.println(arithmetic("3 + 4 / 2"));
-						System.out.println(arithmetic("3 / 4 - 2"));
+	System.out.println(arithmetic("3 * 2 + 4"));
+	System.out.println(arithmetic("3 - 4 * 2"));
+	System.out.println(arithmetic("3 / 4 * 2"));
+	System.out.println(arithmetic("3 + 4 / 2"));
+	System.out.println(arithmetic("3 / 4 - 2"));
+	*/
+	System.out.println(poly("2x^3+3x^2+3x+1 8x^3+2x^2+7x+6", 0));
     }
 
 } 

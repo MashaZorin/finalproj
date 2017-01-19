@@ -61,14 +61,16 @@ public class WolframAlpha extends JFrame implements ActionListener{
 		tester.setText(Numbers.arithmetic(user.substring(11,user.length())));	   
 	    }
 	    else if(user.length() > 9 && user.substring(0,8).equals("add poly")) {
-		System.out.println("recog");
 		String eqns = user.substring(9, user.length());
-		System.out.println(eqns);
 		tester.setText(Numbers.poly(eqns, 0));
 	    }
 	    else if(user.length() > 13 && user.substring(0,12).equals("subtract poly")) {
-		String eqns = user.substring(9, user.length());
-		Numbers.poly(eqns, 1);
+		String eqns = user.substring(13, user.length());
+		tester.setText(Numbers.poly(eqns, 1));
+	    }
+	    else if(user.substring(0,13).equals("derivative of")) {
+		String expression = user.substring(14,user.length());
+		tester.setText(Calculus.derivative(expression));
 	    }
 	    else {
 		tester.setText("Check your input to make sure you have correct spelling etc.");
