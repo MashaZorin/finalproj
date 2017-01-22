@@ -24,10 +24,8 @@
 </ul>
 <h2> Directions on how to compile and run: </h2>
 <ol>
-  <li> </li>
-  <li> </li>
-  <li> </li>
-  <li> </li>
+  <li>javac WolframAlpha.java</li>
+  <li>java WolframAlpha</li>
 </ol>
 <h2> Directions on how to use: </h2>
 <ol>
